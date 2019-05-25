@@ -40,7 +40,23 @@ namespace SysMonitor
             computerHardware.HDDEnabled = true;
             computerHardware.Open();
 
-            testLabel.Content = computerHardware.Hardware[0].Name;
+            CPULabel.Content = computerHardware.Hardware[1].Name;
+
+            ManagementObjectSearcher searcher
+ = new ManagementObjectSearcher("SELECT * FROM Win32_DisplayConfiguration");
+
+            string graphicsCard = string.Empty;
+            foreach (ManagementObject mo in searcher.Get())
+            {
+                foreach (PropertyData property in mo.Properties)
+                {
+                    if (property.Name == "Description")
+                    {
+                        graphicsCard = property.Value.ToString();
+                    }
+                }
+            }
+            GPULabel.Content = graphicsCard;
         }
     }
 }

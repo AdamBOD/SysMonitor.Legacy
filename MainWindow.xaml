@@ -6,7 +6,7 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:SysMonitor"
         mc:Ignorable="d"
-        Title="SysMonitor" Height="600" Width="950"
+        Title="SysMonitor" Height="1200" Width="2000"
         Background="#60666E">
     
     <Grid Background="#60666E"
@@ -17,7 +17,7 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
-            
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         
         <Grid.ColumnDefinitions>
@@ -30,46 +30,120 @@
                 Grid.Column="0">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Label Foreground="#FFFFFF">CPU</Label>
                     <Label Foreground="#FFFFFF"
-                       Margin="100,0,0,0">Intel 8700k</Label>
+                           FontSize="20">CPU</Label>
                 </StackPanel>
+                <Label Foreground="#FFFFFF"
+                           Margin="100,0,0,0"
+                           FontSize="20"
+                           x:Name="CPULabel"/>
                 <StackPanel Orientation="Horizontal">
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fan_Slow.gif"
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Slow.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fan_Slow_Medium.gif"
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Medium.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fan_Medium.gif"
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Medium_Fast.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fan_Medium_Fast.gif"
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Fast.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fan_Fast.gif"
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Very_Fast.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fan_Very_Fast.gif"
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Very_Fast.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
                 </StackPanel>
                 
             </StackPanel>
         </Border>
+        
         <Border BorderThickness="0,0,0,1"
                 BorderBrush="Azure"
                 Grid.Row="1"
                 Grid.Column="0">
             <StackPanel Orientation="Vertical">
-                <Label x:Name="testLabel"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Foreground="#FFFFFF"
+                           FontSize="20">GPU</Label>
+                </StackPanel>
+                <Label Foreground="#FFFFFF"
+                           Margin="100,0,0,0"
+                           x:Name="GPULabel"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/3-Fan-GPU-Fast-03.gif"
+                       Width="250"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/2-Fan-GPU-Fast-03.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/1-Fan-GPU-Fast-02.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/Blower-GPU-Fast-02.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/3-Fan-GPU-Fast-02.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/Blower-GPU-Fast.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                </StackPanel>
             </StackPanel>
         </Border>
+        
         <Border BorderThickness="0,0,0,1"
                 BorderBrush="Azure"
                 Grid.Row="2"
                 Grid.Column="0">
             <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Foreground="#FFFFFF"
+                           FontSize="20">Memory</Label>
+                    <Label Foreground="#FFFFFF"
+                           Margin="100,0,0,0"
+                           x:Name="memoryLabel"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        
+        <Border BorderThickness="0,0,0,1"
+                BorderBrush="Azure"
+                Grid.Row="3"
+                Grid.Column="0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Foreground="#FFFFFF"
+                           FontSize="20">Fans</Label>
+                    <Label Foreground="#FFFFFF"
+                           Margin="100,0,0,0"
+                           x:Name="fansLabel"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Slow.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Slow_Medium.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Medium.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Medium_Fast.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Fast.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Very_Fast.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>

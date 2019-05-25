@@ -39,10 +39,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenHardwareMonitorLib">
-      <HintPath>..\..\Downloads\openhardwaremonitor-v0.8.0-beta\OpenHardwareMonitor\OpenHardwareMonitorLib.dll</HintPath>
+      <HintPath>.\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -100,12 +101,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\GIFs\CPU Fans\CPU_Fan_Fast.psd" />
-    <None Include="Resources\GIFs\CPU Fans\CPU_Fan_Medium.psd" />
-    <None Include="Resources\GIFs\CPU Fans\CPU_Fan_Medium_Fast.psd" />
-    <None Include="Resources\GIFs\CPU Fans\CPU_Fan_Slow.psd" />
-    <None Include="Resources\GIFs\CPU Fans\CPU_Fan_Slow_Medium.psd" />
-    <None Include="Resources\GIFs\CPU Fans\CPU_Fan_Very_Fast.psd" />
     <None Include="Resources\GIFs\Fans\Fan.psd" />
     <None Include="Resources\GIFs\Fans\Fan_Fast.psd" />
     <None Include="Resources\GIFs\Fans\Fan_Medium.psd" />
@@ -157,7 +152,13 @@
   <ItemGroup>
     <Resource Include="Resource-Monitoring-Icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Fast.gif" />
+    <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Medium.gif" />
+    <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Medium_Fast.gif" />
+    <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Slow.gif" />
+    <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Very_Fast.gif" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\CPU Status\CoolCPU.png" />
     <Resource Include="Resources\Images\CPU Status\CPU.png" />
@@ -168,11 +169,6 @@
     <Resource Include="Resources\Images\CPU Status\OverheatedCPU.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\GIFs\CPU Fans\CPU_Fan_Fast.gif" />
-    <Resource Include="Resources\GIFs\CPU Fans\CPU_Fan_Medium.gif" />
-    <Resource Include="Resources\GIFs\CPU Fans\CPU_Fan_Medium_Fast.gif" />
-    <Resource Include="Resources\GIFs\CPU Fans\CPU_Fan_Slow.gif" />
-    <Resource Include="Resources\GIFs\CPU Fans\CPU_Fan_Very_Fast.gif" />
     <Resource Include="Resources\GIFs\Fans\Fan_Fast.gif" />
     <Resource Include="Resources\GIFs\Fans\Fan_Medium.gif" />
     <Resource Include="Resources\GIFs\Fans\Fan_Medium_Fast.gif" />
