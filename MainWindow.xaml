@@ -41,6 +41,9 @@
                     <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Slow.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
+                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Slow_Medium.gif"
+                       Width="150"
+                       gif:ImageBehavior.RepeatBehavior="0x"/>
                     <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Medium.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
@@ -51,9 +54,6 @@
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
                     <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Very_Fast.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Very_Fast.gif"
                        Width="150"
                        gif:ImageBehavior.RepeatBehavior="0x"/>
                 </StackPanel>
