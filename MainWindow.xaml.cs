@@ -32,6 +32,12 @@ namespace SysMonitor
 
         private void prepareUI ()
         {
+            titleBar.MouseDown += Window_MouseDown;
+
+            closeWindowButton.Click += new RoutedEventHandler(closeApp);
+            minWindowButton.Click += new RoutedEventHandler(minimizeApp);
+            maxWindowButton.Click += new RoutedEventHandler(maximizeApp);
+
             computerHardware.MainboardEnabled = true;
             computerHardware.FanControllerEnabled = true;
             computerHardware.CPUEnabled = true;
@@ -43,7 +49,7 @@ namespace SysMonitor
             CPULabel.Content = computerHardware.Hardware[1].Name;
 
             ManagementObjectSearcher searcher
- = new ManagementObjectSearcher("SELECT * FROM Win32_DisplayConfiguration");
+                = new ManagementObjectSearcher("SELECT * FROM Win32_DisplayConfiguration");
 
             string graphicsCard = string.Empty;
             foreach (ManagementObject mo in searcher.Get())
@@ -57,6 +63,33 @@ namespace SysMonitor
                 }
             }
             GPULabel.Content = graphicsCard;
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                DragMove();
+        }
+
+        private void closeApp (object sender, RoutedEventArgs e)
+        {
+            App.Current.Shutdown();
+        }
+
+        private void minimizeApp(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void maximizeApp(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+            } else
+            {
+                WindowState = WindowState.Maximized;
+            }
         }
     }
 }

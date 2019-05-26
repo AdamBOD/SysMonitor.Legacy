@@ -7,144 +7,195 @@
         xmlns:local="clr-namespace:SysMonitor"
         mc:Ignorable="d"
         Title="SysMonitor" Height="1200" Width="2000"
-        Background="#60666E">
+        Background="#60666E"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize"
+        AllowsTransparency="False">
     
-    <Grid Background="#60666E"
-          Margin="10,0,10,0"
-          ShowGridLines="False"
-          x:Name="dataGrid">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                      ResizeBorderThickness="5"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+    
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="0,0,0,1"
-                BorderBrush="Azure"
-                Grid.Row="0"
-                Grid.Column="0">
-            <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
+        <DockPanel Background="#3E4247"
+                    Height="30"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    x:Name="titleBar">
+            <StackPanel HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                <Image Source="Resources/Images/Icon.png"
+                       Width="30"
+                       Margin="15,0,0,0"/>
+                <Label Foreground="AliceBlue"
+                       FontSize="15"
+                       Margin="20,0,0,0"
+                       Content="SysMonitor"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right" Width="135">
+                <Button BorderThickness="0"
+                        Width="45"
+                        Height="30"
+                        Foreground="AliceBlue"
+                        Content="🗕"
+                        x:Name="minWindowButton"/>
+                <Button BorderThickness="0"
+                        Width="45"
+                        Height="30"
+                        Foreground="AliceBlue"
+                        Content="🗖"
+                        x:Name="maxWindowButton"/>
+                <Button BorderThickness="0"
+                        Width="45"
+                        Height="30"
+                        Foreground="AliceBlue"
+                        Content="✖"
+                        x:Name="closeWindowButton">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="#3E4247"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Red"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </DockPanel>
+
+        <StackPanel Background="#60666E"
+                    Margin="10,0,10,0"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    x:Name="dataGrid">
+
+            <Border BorderThickness="0,0,0,1"
+                    BorderBrush="Azure"
+                    Height="325">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="#FFFFFF"
+                               FontSize="20">CPU</Label>
+                    </StackPanel>
                     <Label Foreground="#FFFFFF"
-                           FontSize="20">CPU</Label>
-                </StackPanel>
-                <Label Foreground="#FFFFFF"
                            Margin="100,0,0,0"
                            FontSize="20"
                            x:Name="CPULabel"/>
-                <StackPanel Orientation="Horizontal">
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Slow.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Slow_Medium.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Medium.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Medium_Fast.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Fast.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Very_Fast.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                </StackPanel>
-                
-            </StackPanel>
-        </Border>
-        
-        <Border BorderThickness="0,0,0,1"
-                BorderBrush="Azure"
-                Grid.Row="1"
-                Grid.Column="0">
-            <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
-                    <Label Foreground="#FFFFFF"
-                           FontSize="20">GPU</Label>
-                </StackPanel>
-                <Label Foreground="#FFFFFF"
-                           Margin="100,0,0,0"
-                           x:Name="GPULabel"/>
-                <StackPanel Orientation="Horizontal">
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/3-Fan-GPU-Fast-03.gif"
-                       Width="250"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/2-Fan-GPU-Fast-03.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/1-Fan-GPU-Fast-02.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/Blower-GPU-Fast-02.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/3-Fan-GPU-Fast-02.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/Blower-GPU-Fast.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                </StackPanel>
-            </StackPanel>
-        </Border>
-        
-        <Border BorderThickness="0,0,0,1"
-                BorderBrush="Azure"
-                Grid.Row="2"
-                Grid.Column="0">
-            <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
-                    <Label Foreground="#FFFFFF"
-                           FontSize="20">Memory</Label>
-                    <Label Foreground="#FFFFFF"
-                           Margin="100,0,0,0"
-                           x:Name="memoryLabel"/>
-                </StackPanel>
-            </StackPanel>
-        </Border>
-        
-        <Border BorderThickness="0,0,0,1"
-                BorderBrush="Azure"
-                Grid.Row="3"
-                Grid.Column="0">
-            <StackPanel Orientation="Vertical">
-                <StackPanel Orientation="Horizontal">
-                    <Label Foreground="#FFFFFF"
-                           FontSize="20">Fans</Label>
-                    <Label Foreground="#FFFFFF"
-                           Margin="100,0,0,0"
-                           x:Name="fansLabel"/>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Slow.gif"
+                               Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Slow_Medium.gif"
+                               Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Medium.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Medium_Fast.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Fast.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/CPU_Fans/CPU_Fan_Very_Fast.gif"
+                           Width="150"/>
+                    </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Slow.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Slow_Medium.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Medium.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Medium_Fast.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Fast.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
-                    <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Very_Fast.gif"
-                       Width="150"
-                       gif:ImageBehavior.RepeatBehavior="0x"/>
                 </StackPanel>
-            </StackPanel>
-        </Border>
-    </Grid>
+            </Border>
+
+            <Border BorderThickness="0,0,0,1"
+                    BorderBrush="Azure"
+                    Height="250">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="#FFFFFF"
+                               FontSize="20">GPU</Label>
+                    </StackPanel>
+                    <Label Foreground="#FFFFFF"
+                               Margin="100,0,0,0"
+                               x:Name="GPULabel"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/3-Fan-GPU-Fast-03.gif"
+                           Width="250"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/2-Fan-GPU-Fast-03.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/1-Fan-GPU-Fast-02.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/Blower-GPU-Fast-02.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/3-Fan-GPU-Fast-02.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/Blower-GPU-Fast.gif"
+                           Width="150"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border BorderThickness="0,0,0,1"
+                    BorderBrush="Azure"
+                    Height="150">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="#FFFFFF"
+                               FontSize="20">Memory</Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Resources/Images/ram.png"
+                               Width="140"
+                               VerticalAlignment="Top"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border BorderThickness="0,0,0,1"
+                    BorderBrush="Azure"
+                    Height="250">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="#FFFFFF"
+                               FontSize="20">Fans</Label>
+                        <Label Foreground="#FFFFFF"
+                               Margin="100,0,0,0"
+                               x:Name="fansLabel"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Slow.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Slow_Medium.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Medium.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Medium_Fast.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Fast.gif"
+                           Width="150"/>
+                        <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Very_Fast.gif"
+                           Width="150"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>    
 </Window>

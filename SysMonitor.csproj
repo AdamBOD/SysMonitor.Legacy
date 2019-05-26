@@ -209,5 +209,11 @@
   <ItemGroup>
     <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Slow_Medium.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\ram.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
