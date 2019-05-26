@@ -206,5 +206,8 @@
     <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Slow-02.gif" />
     <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Slow.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Slow_Medium.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
