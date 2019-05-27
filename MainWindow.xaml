@@ -121,6 +121,8 @@
                            Width="150"/>
                     </StackPanel>
 
+                    <Button Click="Button_Click"
+                            Content="Get Stuff"/>
                 </StackPanel>
             </Border>
 
