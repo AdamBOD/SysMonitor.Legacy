@@ -74,7 +74,32 @@ namespace SysMonitor
                     }
                 }
             }
-            GPULabel.Content = graphicsCard;
+            //GPULabel.Content = graphicsCard;
+
+
+            foreach (var hardware in computerHardware.Hardware)
+            {
+                // This will be in the mainboard
+                foreach (var subhardware in hardware.SubHardware)
+                {
+                    // This will be in the SuperIO
+                    subhardware.Update();
+                    if (subhardware.Sensors.Length > 0) // Index out of bounds check
+                    {
+                        foreach (var sensor in subhardware.Sensors)
+                        {
+                            // Look for the main fan sensor
+                            if (sensor.SensorType == SensorType.Fan)
+                            {
+                                Console.WriteLine("CPU Fan Speed:" + Convert.ToString((int)(float)sensor.Value) + " RPM");
+                                GPULabel.Content += Convert.ToString((int)(float)sensor.Value) + " RPM\n";
+                            }
+                        }
+                    }
+                }
+            }
+
+            
 
             pSDK = new CPUIDSDK();
             pSDK.CreateInstance();
