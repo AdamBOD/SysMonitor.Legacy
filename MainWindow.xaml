@@ -120,11 +120,11 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Source="Resources/Images/CPU Status/CPUCool.png"
-                                   Grid.Column="0"
-                                   Grid.Row="0"
-                                   Grid.RowSpan="3"
-                                   Width="150"
-                                   Margin="10"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                Width="150"
+                                Margin="10"
                                x:Name="CPUStatusImage"/>
 
                         <Label Content="Load: "
@@ -212,11 +212,12 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Source="Resources/Images/CPU Status/CPUCool.png"
-                                   Grid.Column="0"
-                                   Grid.Row="0"
-                                   Grid.RowSpan="3"
-                                   Width="150"
-                                   Margin="10"/>
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               Grid.RowSpan="3"
+                               Width="150"
+                               Margin="10"
+                               x:Name="GPUStatusImage"/>
 
                         <Label Content="Load: "
                                    Grid.Row="0"
