@@ -22,18 +22,19 @@ namespace SysMonitor
     public partial class MainWindow : Window
     {
         private Computer computerHardware;
-        public CPUIDSDK pSDK;
+        private StringFactory stringFactory;
 
         public MainWindow()
         {
             InitializeComponent();
             computerHardware = new Computer();
+            stringFactory = new StringFactory();
             prepareUI();
         }
 
         private void prepareUI ()
         {
-            titleBar.MouseDown += Window_MouseDown;
+            titleBar.MouseDown += Window_MouseDown;            
 
             closeWindowButton.Click += new RoutedEventHandler(closeApp);
             minWindowButton.Click += new RoutedEventHandler(minimizeApp);
@@ -48,18 +49,9 @@ namespace SysMonitor
             computerHardware.Open();
 
             CPULabel.Content = computerHardware.Hardware[1].Name;
-            CPULabel.Content = computerHardware.Hardware[0].Sensors.Length;
-            //CPULabel.Content = computerHardware.GetReport();
-            //computerHardware.Hardware[0].Sensors += MainWindow_SensorAdded;
-            for (int i = 0; i < computerHardware.Hardware.Length; i++)
-            {
-                Console.WriteLine("----------------------\n" + computerHardware.Hardware[i].Name + "\n----------------------");
-                for (int j = 0; j < computerHardware.Hardware[i].Sensors.Length; j++)
-                {
-                    Console.WriteLine(computerHardware.Hardware[i].Sensors[j].SensorType + " (" + computerHardware.Hardware[i].Sensors[j].Name + ")" + ": " + computerHardware.Hardware[i].Sensors[j].Value + computerHardware.Hardware[i].Sensors[j].Hardware);
-                }
-            }
-            
+            GPULabel.Content = computerHardware.Hardware[3].Name;
+
+
             ManagementObjectSearcher searcher
                 = new ManagementObjectSearcher("SELECT * FROM Win32_DisplayConfiguration");
 
@@ -71,10 +63,12 @@ namespace SysMonitor
                     if (property.Name == "Description")
                     {
                         graphicsCard = property.Value.ToString();
+                        //GPULabel.Content = graphicsCard;
                     }
                 }
             }
-            //GPULabel.Content = graphicsCard;
+
+            
 
 
             foreach (var hardware in computerHardware.Hardware)
@@ -92,80 +86,242 @@ namespace SysMonitor
                             if (sensor.SensorType == SensorType.Fan)
                             {
                                 Console.WriteLine("CPU Fan Speed:" + Convert.ToString((int)(float)sensor.Value) + " RPM");
-                                GPULabel.Content += Convert.ToString((int)(float)sensor.Value) + " RPM\n";
+                                //fansLabel.Content += Convert.ToString((int)(float)sensor.Value) + " RPM\n";
                             }
+                        }
+                    }
+                }
+
+                if (hardware.HardwareType == HardwareType.CPU)
+                {
+                    foreach (var hardwareSensor in hardware.Sensors)
+                    {
+                        switch (hardwareSensor.SensorType)
+                        {
+                            case SensorType.Load:
+                                if (hardwareSensor.Name == "CPU Total")
+                                {
+                                    CPULoad.Content = stringFactory.loadString (hardwareSensor.Value);
+                                }
+                                break;
+
+                            case SensorType.Temperature:
+                                if (hardwareSensor.Name == "CPU Package")
+                                {
+                                    CPUTemp.Content = stringFactory.temperatureString(hardwareSensor.Value);
+                                    if (hardwareSensor.Value < 45)
+                                    {
+                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Images\CPU Status\CPUHot.png", UriKind.Relative));
+                                    } else if (hardwareSensor.Value >= 45 && hardwareSensor.Value < 75)
+                                    {
+                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Resources\Images\CPU Status\CPUHot.png", UriKind.Relative));
+                                    } else if (hardwareSensor.Value > 75)
+                                    {
+                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Images\CPU Status\CPUOverheated.png", UriKind.Relative));
+                                    }
+                                }
+                                break;
+
+                            case SensorType.Clock:
+                                if (hardwareSensor.Name == "CPU Core #2")
+                                {
+                                    CPUClock.Content = stringFactory.clockString(hardwareSensor.Value);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                } else if (hardware.HardwareType == HardwareType.RAM)
+                {
+                    foreach (var hardwareSensor in hardware.Sensors)
+                    {
+                        Console.WriteLine(hardwareSensor);
+                        /*switch (hardwareSensor.SensorType)
+                        {
+                            case SensorType.Load
+                        }*/
+                    }                
+                } else if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAti)
+                {
+                    foreach (var hardwareSensor in hardware.Sensors)
+                    {
+                        switch (hardwareSensor.SensorType)
+                        {
+                            case SensorType.Load:
+                                if (hardwareSensor.Name == "GPU Core")
+                                {
+                                    GPULoad.Content = stringFactory.loadString(hardwareSensor.Value);
+                                }                                
+                                break;
+
+                            case SensorType.Clock:
+                                if (hardwareSensor.Name == "GPU Core")
+                                {
+                                    GPUCoreClock.Content = "Core " + stringFactory.clockString(hardwareSensor.Value);
+                                } else if (hardwareSensor.Name == "GPU Memory")
+                                {
+                                    GPUMemoryClock.Content = "Memory " + stringFactory.clockString(hardwareSensor.Value);
+                                }
+                                break;
+                            case SensorType.Temperature:
+                                GPUTemp.Content = stringFactory.temperatureString(hardwareSensor.Value);
+                                break;
+                            case SensorType.Fan:
+                                //TO-DO: CHANGE GPU FAN IN FANS SECTION
+                                break;
+                            case SensorType.SmallData:
+                                if (hardwareSensor.Name == "GPU Memory Total")
+                                {
+                                    GPUMemoryCapacity.Content = "Memory Capacity: " + hardwareSensor.Value;
+                                } else if (hardwareSensor.Name == "GPU Memory Used")
+                                {
+                                    GPUMemoryUsed.Content = "Memory Used: " + hardwareSensor.Value;
+                                }
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
             }
 
-            
-
-            pSDK = new CPUIDSDK();
-            pSDK.CreateInstance();
-
-            var info = get_sensor_list(6, CPUIDSDK.SENSOR_CLASS_FAN);
-
-            CPULabel.Content = info;
-
-            SelectQuery query =
-           new SelectQuery("Win32_Fan");
-
-            // Instantiate an object searcher
-            // with this query
-            ManagementObjectSearcher searcher01 =
-                new ManagementObjectSearcher("SELECT * FROM Win32_Fan");
-
-            // Call Get() to retrieve the collection
-            // of objects and loop through it
-            //foreach (ManagementObject envVar in searcher01.Get())
-            //fansLabel.Content += envVar["DesiredSpeed"].ToString();
-            searcher01.Get();
-            foreach (ManagementObject mo in searcher01.Get())
+            /*for (int i = 0; i < computerHardware.Hardware.Length; i++)
             {
-                /*foreach (PropertyData property in mo.SystemProperties)
+                Console.WriteLine("----------------------\n" + computerHardware.Hardware[i].Name + "\n----------------------");
+                for (int j = 0; j < computerHardware.Hardware[i].Sensors.Length; j++)
                 {
-                    fansLabel.Content += property.Value.ToString() + " ";
-                }*/
-                fansLabel.Content += mo["Name"].ToString();
-                fansLabel.Content += "\n";
-            }
+                    Console.WriteLine(computerHardware.Hardware[i].Sensors[j].SensorType + " (" + computerHardware.Hardware[i].Sensors[j].Name + ")" + ": " + computerHardware.Hardware[i].Sensors[j].Value + computerHardware.Hardware[i].Sensors[j].Hardware);
+                }
+            }*/
         }
 
-        public List<Sensor> get_sensor_list(int device_index, int sensor_class)
+        private void getSensorData ()
         {
-            int sensor_index;
-            int NbSensors;
-            bool result;
-            int sensor_id = 0;
-            string sensorname = "";
-            int iValue = 0;
-            float fValue = 0;
-            float fMinValue = 0;
-            float fMaxValue = 0;
-            var sensors = new List<Sensor>();
-            NbSensors = pSDK.GetNumberOfSensors(device_index, sensor_class);
-            for (sensor_index = 0; sensor_index < NbSensors; sensor_index += 1)
+            foreach (var hardware in computerHardware.Hardware)
             {
-                result = pSDK.GetSensorInfos(device_index,
-                  sensor_index,
-                  sensor_class,
-                  ref sensor_id,
-                  ref sensorname,
-                  ref iValue,
-                  ref fValue,
-                  ref fMinValue,
-                  ref fMaxValue);
-                if (result == true)
+                // This will be in the mainboard
+                foreach (var subhardware in hardware.SubHardware)
                 {
-                    var data = new Sensor();
-                    data.name = sensorname;
-                    data.value = Math.Round(fValue, 2);
-                    sensors.Add(data);
+                    // This will be in the SuperIO
+                    subhardware.Update();
+                    if (subhardware.Sensors.Length > 0) // Index out of bounds check
+                    {
+                        foreach (var sensor in subhardware.Sensors)
+                        {
+                            // Look for the main fan sensor
+                            if (sensor.SensorType == SensorType.Fan)
+                            {
+                                Console.WriteLine("CPU Fan Speed:" + Convert.ToString((int)(float)sensor.Value) + " RPM");
+                                //fansLabel.Content += Convert.ToString((int)(float)sensor.Value) + " RPM\n";
+                            }
+                        }
+                    }
+                }
+
+                if (hardware.HardwareType == HardwareType.CPU)
+                {
+                    foreach (var hardwareSensor in hardware.Sensors)
+                    {
+                        switch (hardwareSensor.SensorType)
+                        {
+                            case SensorType.Load:
+                                if (hardwareSensor.Name == "CPU Total")
+                                {
+                                    CPULoad.Content = stringFactory.loadString(hardwareSensor.Value);
+                                }
+                                break;
+
+                            case SensorType.Temperature:
+                                if (hardwareSensor.Name == "CPU Package")
+                                {
+                                    CPUTemp.Content = stringFactory.temperatureString(hardwareSensor.Value);
+                                    if (hardwareSensor.Value < 45)
+                                    {
+                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Images\CPU Status\CPUHot.png", UriKind.Relative));
+                                    }
+                                    else if (hardwareSensor.Value >= 45 && hardwareSensor.Value < 75)
+                                    {
+                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Resources\Images\CPU Status\CPUHot.png", UriKind.Relative));
+                                    }
+                                    else if (hardwareSensor.Value > 75)
+                                    {
+                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Images\CPU Status\CPUOverheated.png", UriKind.Relative));
+                                    }
+                                }
+                                break;
+
+                            case SensorType.Clock:
+                                if (hardwareSensor.Name == "CPU Core #2")
+                                {
+                                    CPUClock.Content = stringFactory.clockString(hardwareSensor.Value);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else if (hardware.HardwareType == HardwareType.RAM)
+                {
+                    foreach (var hardwareSensor in hardware.Sensors)
+                    {
+                        Console.WriteLine(hardwareSensor);
+                        /*switch (hardwareSensor.SensorType)
+                        {
+                            case SensorType.Load
+                        }*/
+                    }
+                }
+                else if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAti)
+                {
+                    foreach (var hardwareSensor in hardware.Sensors)
+                    {
+                        switch (hardwareSensor.SensorType)
+                        {
+                            case SensorType.Load:
+                                if (hardwareSensor.Name == "GPU Core")
+                                {
+                                    GPULoad.Content = stringFactory.loadString(hardwareSensor.Value);
+                                }
+                                break;
+
+                            case SensorType.Clock:
+                                if (hardwareSensor.Name == "GPU Core")
+                                {
+                                    GPUCoreClock.Content = "Core " + stringFactory.clockString(hardwareSensor.Value);
+                                }
+                                else if (hardwareSensor.Name == "GPU Memory")
+                                {
+                                    GPUMemoryClock.Content = "Memory " + stringFactory.clockString(hardwareSensor.Value);
+                                }
+                                break;
+                            case SensorType.Temperature:
+                                GPUTemp.Content = stringFactory.temperatureString(hardwareSensor.Value);
+                                break;
+                            case SensorType.Fan:
+                                //TO-DO: CHANGE GPU FAN IN FANS SECTION
+                                break;
+                            case SensorType.SmallData:
+                                if (hardwareSensor.Name == "GPU Memory Total")
+                                {
+                                    GPUMemoryCapacity.Content = "Memory Capacity: " + hardwareSensor.Value;
+                                }
+                                else if (hardwareSensor.Name == "GPU Memory Used")
+                                {
+                                    GPUMemoryUsed.Content = "Memory Used: " + hardwareSensor.Value;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
             }
-            return sensors;
         }
+
 
         private void ComputerHardware_HardwareAdded(IHardware hardware)
         {
@@ -206,7 +362,7 @@ namespace SysMonitor
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(computerHardware.GetReport());
+            prepareUI();
         }
     }
 }

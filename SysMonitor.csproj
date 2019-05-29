@@ -84,6 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="StringFactory.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -92,8 +93,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="cpuid.cs" />
-    <Compile Include="cpuidsdk.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -173,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource-Monitoring-Icon.ico" />
+    <Resource Include="Resources\Images\ram.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Fast.gif" />
@@ -230,9 +230,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Slow_Medium.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Images\ram.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Icon.png" />
