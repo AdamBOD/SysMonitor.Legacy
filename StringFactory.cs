@@ -13,26 +13,45 @@ namespace SysMonitor
 
         public string loadString (float? value)
         {
-            decimal newValue = (decimal)value;
-            newValue = Math.Ceiling(newValue);
-            string outputString = $"Load: {newValue}%";
-            return outputString;
+            if (value != null)
+            {
+                decimal newValue = (decimal)value;
+                newValue = Math.Ceiling(newValue);
+                string outputString = $"Load: {newValue}%";
+                return outputString;
+            } else
+            {
+                return "Load: N/A";
+            }
         }
 
         public string temperatureString(float? value)
         {
-            decimal newValue = (decimal)value;
-            newValue = Math.Ceiling(newValue);
-            string outputString = $"Temperature: {newValue}°C";
-            return outputString;
+            if (value != null)
+            {
+                decimal newValue = (decimal)value;
+                newValue = Math.Ceiling(newValue);
+                string outputString = $"Temperature: {newValue}°C";
+                return outputString;
+            }
+            else
+            {
+                return "Temperature: N/A";
+            }
         }
 
         public string clockString (float? value)
         {
-            decimal newValue = (decimal)value;
-            newValue = Math.Ceiling(newValue);
-            string outputString = $"Clock: {newValue}MHz";
-            return outputString;
+            if (value != null)
+            {
+                decimal newValue = (decimal)value;
+                newValue = Math.Ceiling(newValue);
+                string outputString = $"Clock: {newValue}MHz";
+                return outputString;
+            } else
+            {
+                return "Clock: N/A";
+            }
         }
     }
 }
