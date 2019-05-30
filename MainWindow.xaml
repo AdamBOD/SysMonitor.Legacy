@@ -6,7 +6,7 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:SysMonitor"
         mc:Ignorable="d"
-        Title="SysMonitor" Height="1200" Width="2000"
+        Title="SysMonitor" Height="1000" Width="1700"
         Background="#60666E"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
@@ -19,7 +19,7 @@
                       UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
 
-    <Grid>
+    <Grid Style="{StaticResource Container}">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />

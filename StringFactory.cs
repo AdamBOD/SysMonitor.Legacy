@@ -27,7 +27,7 @@ namespace SysMonitor
 
         public string temperatureString(float? value)
         {
-            if (value != null)
+            if (value != null && value != 0)
             {
                 decimal newValue = (decimal)value;
                 newValue = Math.Ceiling(newValue);
@@ -42,7 +42,7 @@ namespace SysMonitor
 
         public string clockString (float? value)
         {
-            if (value != null)
+            if (value != null && value != 0)
             {
                 decimal newValue = (decimal)value;
                 newValue = Math.Ceiling(newValue);
@@ -56,7 +56,7 @@ namespace SysMonitor
 
         public string memoryString(float? value)
         {
-            if (value != null)
+            if (value != null & value != 0)
             {
                 string newValue = MBToGB(value);
                 string outputString = $"{newValue}";
