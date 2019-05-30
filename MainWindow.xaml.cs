@@ -50,6 +50,10 @@ namespace SysMonitor
             CPULabel.Content = computerHardware.Hardware[1].Name;
             GPULabel.Content = computerHardware.Hardware[3].Name;
 
+
+
+            memoryCapacity.Content = "Capacity: " + stringFactory.bytesToGB(new Microsoft.VisualBasic.Devices.ComputerInfo().TotalPhysicalMemory) + "GB";
+
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += OnTimedEvent;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
@@ -138,11 +142,18 @@ namespace SysMonitor
                 {
                     foreach (var hardwareSensor in hardware.Sensors)
                     {
-                        Console.WriteLine(hardwareSensor);
-                        /*switch (hardwareSensor.SensorType)
+                        switch (hardwareSensor.SensorType)
                         {
-                            case SensorType.Load
-                        }*/
+                            case SensorType.Data:
+                                if (hardwareSensor.Name == "Used Memory")
+                                {
+                                    memoryLoad.Content = "Used: " + stringFactory.GBString(hardwareSensor.Value);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
                     }
                 }
                 else if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAti)
@@ -189,11 +200,11 @@ namespace SysMonitor
                             case SensorType.SmallData:
                                 if (hardwareSensor.Name == "GPU Memory Total")
                                 {
-                                    GPUMemoryCapacity.Content = "Memory Capacity: " + hardwareSensor.Value;
+                                    GPUMemoryCapacity.Content = "Memory Capacity: " + stringFactory.memoryString(hardwareSensor.Value);
                                 }
                                 else if (hardwareSensor.Name == "GPU Memory Used")
                                 {
-                                    GPUMemoryUsed.Content = "Memory Used: " + hardwareSensor.Value;
+                                    GPUMemoryUsed.Content = "Memory Used: " + stringFactory.memoryString(hardwareSensor.Value);
                                 }
                                 break;
                             default:

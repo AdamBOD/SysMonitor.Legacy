@@ -53,5 +53,40 @@ namespace SysMonitor
                 return "Clock: N/A";
             }
         }
+
+        public string memoryString(float? value)
+        {
+            if (value != null)
+            {
+                string newValue = MBToGB(value);
+                string outputString = $"{newValue}";
+                return outputString;
+            }
+            else
+            {
+                return "Memory: N/A";
+            }
+        }
+
+        public string MBToGB (float? memory)
+        {
+            double memGB = (double)memory / 1024;
+
+            return GBString ((float)memGB);
+        }
+
+        public int bytesToGB (ulong memory)
+        {
+            double memGB = memory / Math.Pow(1024, 3);
+            memGB = Math.Round(memGB, 0, MidpointRounding.AwayFromZero);
+            return (int)memGB;
+        }
+
+        public string GBString (float? memory)
+        {
+            double memGB = Math.Round((double)memory, 1, MidpointRounding.AwayFromZero);
+            string outputString = $"{memGB}GB";
+            return outputString;
+        }
     }
 }

@@ -172,7 +172,7 @@
                                    Width="140"
                                    Margin="10"/>
 
-                        <Label Content="Load: "
+                        <Label Content="Used: "
                                    Grid.Row="0"
                                    Grid.Column="1"
                                    VerticalAlignment="Bottom"
@@ -312,10 +312,10 @@
 
                         <StackPanel Orientation="Vertical"
                                     Margin="10">
-                            <Label Content="Case Fan #4"
+                            <Label Content="GPU Fans"
                                    HorizontalContentAlignment="Center" />
-                            <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/Fans/Fan_Medium.gif"
-                                   Width="150"
+                            <Image gif:ImageBehavior.AnimatedSource="Resources/GIFs/GPUs/3-Fan-GPU-Fast-03.gif"
+                                   Height="150"
                                    Margin="0,5,0,5" />
                             <Label Content="100RPM"
                                    HorizontalContentAlignment="Center" />
