@@ -23,7 +23,10 @@ namespace SysMonitor
         private int previousHeight;
         private int currentHeight;
 
-        public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
+        private bool titleBarClicked = false;
+        private bool windowStateChanging = false;
+
+        public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0));
 
         public MainWindow()
         {
@@ -50,7 +53,11 @@ namespace SysMonitor
 
         private void prepareUI ()
         {
-            titleBar.MouseDown += Window_MouseDown;            
+            mainWindow.StateChanged += MainWindow_StateChanged;
+
+            titleBar.MouseLeftButtonDown += Window_MouseLeftButtonDown;
+            titleBar.MouseLeftButtonUp += Window_MouseLeftButtonUp;
+            titleBar.MouseMove += TitleBar_MouseMove;
 
             closeWindowButton.Click += new RoutedEventHandler(closeApp);
             minWindowButton.Click += new RoutedEventHandler(minimizeApp);
@@ -368,10 +375,54 @@ namespace SysMonitor
             return gifPath;
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-                DragMove();
+            windowStateChanging = true;
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                if (WindowState == WindowState.Normal)
+                {
+                    WindowState = WindowState.Maximized;
+                }
+                else
+                {
+                    WindowState = WindowState.Normal;
+                }
+                
+            } else if (e.ChangedButton == MouseButton.Left)
+            {
+                titleBarClicked = true;
+                windowStateChanging = false;
+            }
+        }
+
+        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            titleBarClicked = false;
+            windowStateChanging = false;
+        }
+
+        private void TitleBar_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (titleBarClicked)
+            {
+                if (WindowState == WindowState.Maximized && !windowStateChanging)
+                {
+                    WindowState = WindowState.Normal;
+                    this.Top = e.GetPosition(this.titleBar).Y;
+                }
+                try
+                {
+                    DragMove();
+                } catch (Exception error) {
+
+                }                
+            }
+            
         }
 
         private void closeApp (object sender, RoutedEventArgs e)
@@ -395,36 +446,6 @@ namespace SysMonitor
             }
         }
 
-        private static object OnCoerceScaleValue(DependencyObject o, object value)
-        {
-            /*MainWindow mainWindow = o as MainWindow;
-            if (mainWindow != null)
-                return mainWindow.OnCoerceScaleValue((double)value);
-            else*/
-                return value;
-        }
-
-        private static void OnScaleValueChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            /*MainWindow mainWindow = o as MainWindow;
-            if (mainWindow != null)
-                mainWindow.OnScaleValueChanged((double)e.OldValue, (double)e.NewValue);*/
-        }
-
-        protected virtual double OnCoerceScaleValue(double value)
-        {
-            /*if (double.IsNaN(value))
-                return 1.0f;
-
-            value = Math.Max(0.1, value);*/
-            return value;
-        }
-
-        protected virtual void OnScaleValueChanged(double oldValue, double newValue)
-        {
-
-        }
-
         public double ScaleValue
         {
             get
@@ -436,19 +457,5 @@ namespace SysMonitor
                 SetValue(ScaleValueProperty, value);
             }
         }
-
-        private void MainGrid_SizeChanged(object sender, EventArgs e)
-        {
-            CalculateScale();
-        }
-
-        private void CalculateScale()
-        {
-            /*double yScale = ActualHeight / 250f;
-            double xScale = ActualWidth / 200f;
-            double value = Math.Min(xScale, yScale);
-            ScaleValue = (double)OnCoerceScaleValue(mainWindow, value);*/
-        }
-
     }
 }
