@@ -34,7 +34,7 @@ namespace SysMonitor
             currentHeight = (int)(Screen.PrimaryScreen.Bounds.Height * 0.6953125);
             previousHeight = currentHeight;
 
-            SetValue(ScaleValueProperty, 1.29);
+            SetValue(ScaleValueProperty, (double)Screen.PrimaryScreen.Bounds.Width / 1920 - 0.085);
 
             mainWindow.Width = currentWidth;
             mainWindow.Height = currentHeight;
