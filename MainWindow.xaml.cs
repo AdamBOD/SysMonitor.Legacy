@@ -34,11 +34,11 @@ namespace SysMonitor
             currentHeight = (int)(Screen.PrimaryScreen.Bounds.Height * 0.6953125);
             previousHeight = currentHeight;
 
-            double scaleValue = 1.0;
+            double scaleValue = 0.935;
             if (Screen.PrimaryScreen.Bounds.Width > 1920)
                 scaleValue = (double)Screen.PrimaryScreen.Bounds.Width / 1920 - 0.085;
 
-            SetValue(ScaleValueProperty, scaleValue);
+            ScaleValue = scaleValue;
 
             mainWindow.Width = currentWidth;
             mainWindow.Height = currentHeight;
