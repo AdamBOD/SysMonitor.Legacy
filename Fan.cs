@@ -36,8 +36,6 @@ namespace SysMonitor
         public Fan (string fanType, int rpm)
         {
             this.fanType = fanType;
-            if (fanType == "GPU")
-                speedClass = 6;
             setRPM(rpm);
         }
 
