@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="SysMonitor.FanControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SysMonitor"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="175">
+    <StackPanel Orientation="Vertical"
+                Margin="10">
+        <Label Content="{Binding FanName}"
+               HorizontalContentAlignment="Center" />
+
+        <Image Margin="0,5,0,5"
+               x:Name="FanGif" />
+
+        <Label Content="{Binding FanRPM, Mode=TwoWay}"
+               HorizontalContentAlignment="Center"
+               x:Name="FanSpeedLabel"/>
+    </StackPanel>
+</UserControl>

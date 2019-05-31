@@ -1,19 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Management;
-using OpenHardwareMonitor;
 using OpenHardwareMonitor.Hardware;
 
 namespace SysMonitor
@@ -23,11 +12,17 @@ namespace SysMonitor
         private Computer computerHardware;
         private StringFactory stringFactory;
 
+        private bool gpuFansRegistered = false;
+        private bool fansRegistered = false;
+        private bool fansRendered = false;
+        private List<Fan> fans;
+
         public MainWindow()
         {
             InitializeComponent();
             computerHardware = new Computer();
             stringFactory = new StringFactory();
+            fans = new List<Fan>();
             prepareUI();
         }
 
@@ -50,8 +45,6 @@ namespace SysMonitor
             CPULabel.Content = computerHardware.Hardware[1].Name;
             GPULabel.Content = computerHardware.Hardware[3].Name;
 
-
-
             memoryCapacity.Content = "Capacity: " + stringFactory.bytesToGB(new Microsoft.VisualBasic.Devices.ComputerInfo().TotalPhysicalMemory) + "GB";
 
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
@@ -72,24 +65,45 @@ namespace SysMonitor
 
         private void getSensorData ()
         {
+            int fansIndex = 0;
             foreach (var hardware in computerHardware.Hardware)
             {
-                // This will be in the mainboard
                 foreach (var subhardware in hardware.SubHardware)
                 {
-                    // This will be in the SuperIO
                     subhardware.Update();
-                    if (subhardware.Sensors.Length > 0) // Index out of bounds check
+                    if (subhardware.Sensors.Length > 0)
                     {
-                        fansLabel.Content = "";
                         foreach (var sensor in subhardware.Sensors)
                         {
-                            // Look for the main fan sensor
                             if (sensor.SensorType == SensorType.Fan)
-                            {
-                                Console.WriteLine("CPU Fan Speed:" + Convert.ToString((int)(float)sensor.Value) + " RPM");
-                                fansLabel.Content += Convert.ToString((int)(float)sensor.Value) + " RPM    ";
+                            {                                
+                                if (!fansRegistered)
+                                {
+                                    if (fansIndex <= subhardware.Sensors.Length - 1)
+                                    {
+                                        if (fansIndex == 0)
+                                        {
+                                            fans.Add(new Fan("CPU", (int)sensor.Value));
+                                        }
+                                        else
+                                        {
+                                            fans.Add(new Fan("Case", (int)sensor.Value));
+                                        }
+                                    } else
+                                    {
+                                        fansRegistered = true;
+                                    }
+                                } else
+                                {
+                                    fans[fansIndex].setRPM((int)sensor.Value);
+                                }
+                                fansIndex++;
                             }
+                        }
+
+                        if (!fansRegistered)
+                        {
+                            fansRegistered = true;
                         }
                     }
                 }
@@ -195,7 +209,14 @@ namespace SysMonitor
                                 }
                                 break;
                             case SensorType.Fan:
-                                //TO-DO: CHANGE GPU FAN IN FANS SECTION
+                                if (!gpuFansRegistered)
+                                {
+                                    fans.Add(new Fan("GPU", (int)hardwareSensor.Value));
+                                    gpuFansRegistered = true;
+                                } else
+                                {
+                                    fans[fans.Count - 1].setRPM((int)hardwareSensor.Value);
+                                }
                                 break;
                             case SensorType.SmallData:
                                 if (hardwareSensor.Name == "GPU Memory Total")
@@ -213,17 +234,116 @@ namespace SysMonitor
                     }
                 }
             }
+
+            if (!fansRendered)
+            {
+                renderFans();
+            } else
+            {
+                updateFans();
+            }
         }
 
 
-        private void ComputerHardware_HardwareAdded(IHardware hardware)
+        private void renderFans()
         {
-            CPULabel.Content += hardware.Name;
+            int fanIndex = 0;
+            foreach (var fan in fans)
+            {
+                fanIndex++;
+                FansContainer.Children.Add(new FanControl ($"{fan.getRPM()} RPM", fan.SpeedClass, fan.FanType));
+            }
+            fansRendered = true;
         }
 
-        private void MainWindow_SensorAdded(ISensor sensor)
+        private void updateFans()
         {
-            CPULabel.Content = sensor.SensorType;
+            int fanIndex = 0;
+            foreach (var fan in fans)
+            {
+                FanControl fanControl = (FanControl)FansContainer.Children[fanIndex];
+                fanControl.FanSpeedLabel.Content = $"{fan.getRPM()} RPM";
+                if (fan.NeedsUpdate == 0) {
+                    fanControl.updateGif(createGifPath(fan.FanType, fan.SpeedClass));
+                }
+                fanIndex++;
+            }
+        }
+
+        public static string createGifPath (string fanType, int speedClass)
+        {
+            string gifPath = "Resources/GIFs/";
+            if (fanType == "CPU")
+            {
+                gifPath += "CPU_Fans/";
+                switch (speedClass)
+                {
+                    case 0:
+                        gifPath += "CPU_Fan_Slow.gif";
+                        break;
+                    case 1:
+                        gifPath += "CPU_Fan_Slow_Medium.gif";
+                        break;
+                    case 2:
+                        gifPath += "CPU_Fan_Medium.gif";
+                        break;
+                    case 3:
+                        gifPath += "CPU_Fan_Medium_Fast.gif";
+                        break;
+                    case 4:
+                        gifPath += "CPU_Fan_Fast.gif";
+                        break;
+                    case 5:
+                        gifPath += "CPU_Fan_Very_Fast.gif";
+                        break;
+                    default:
+                        break;
+                }
+            } else if (fanType == "GPU")
+            {
+                gifPath += "GPUs/";
+                switch (speedClass)
+                {
+                    case 0:
+                        gifPath += "3-Fan-GPU-Slow-03.gif";
+                        break;
+                    case 1:
+                        gifPath += "3-Fan-GPU-Medium-03.gif";
+                        break;
+                    case 2:
+                        gifPath += "3-Fan-GPU-Fast-03.gif";
+                        break;
+                    default:
+                        break;
+                }
+            } else if (fanType == "Case")
+            {
+                gifPath += "Fans/";
+                switch (speedClass)
+                {
+                    case 0:
+                        gifPath += "Fan_Slow.gif";
+                        break;
+                    case 1:
+                        gifPath += "Fan_Slow_Medium.gif";
+                        break;
+                    case 2:
+                        gifPath += "Fan_Medium.gif";
+                        break;
+                    case 3:
+                        gifPath += "Fan_Medium_Fast.gif";
+                        break;
+                    case 4:
+                        gifPath += "Fan_Fast.gif";
+                        break;
+                    case 5:
+                        gifPath += "Fan_Very_Fast.gif";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return gifPath;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -253,9 +373,5 @@ namespace SysMonitor
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            prepareUI();
-        }
     }
 }

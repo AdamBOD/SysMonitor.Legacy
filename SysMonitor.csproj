@@ -86,7 +86,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Fan.cs" />
+    <Compile Include="FanControl.xaml.cs">
+      <DependentUpon>FanControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StringFactory.cs" />
+    <Page Include="FanControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -124,50 +131,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\GIFs\Fans\Fan.psd" />
-    <None Include="Resources\GIFs\Fans\Fan_Fast.psd" />
-    <None Include="Resources\GIFs\Fans\Fan_Medium.psd" />
-    <None Include="Resources\GIFs\Fans\Fan_Medium_Fast.psd" />
-    <None Include="Resources\GIFs\Fans\Fan_Slow.psd" />
-    <None Include="Resources\GIFs\Fans\Fan_Slow_Medium.psd" />
-    <None Include="Resources\GIFs\Fans\Fan_Very_Fast.psd" />
-    <None Include="Resources\GIFs\GPUs\1-Fan-GPU-Fast 02.psd" />
-    <None Include="Resources\GIFs\GPUs\1-Fan-GPU-Fast.psd" />
-    <None Include="Resources\GIFs\GPUs\1-Fan-GPU-Medium 02.psd" />
-    <None Include="Resources\GIFs\GPUs\1-Fan-GPU-Medium.psd" />
-    <None Include="Resources\GIFs\GPUs\1-Fan-GPU-Slow 02.psd" />
-    <None Include="Resources\GIFs\GPUs\1-Fan-GPU-Slow.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Fast 02.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Fast 03.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Fast.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Medium 02.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Medium 03.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Medium.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Slow 02.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Slow 03.psd" />
-    <None Include="Resources\GIFs\GPUs\2-Fan-GPU-Slow.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Fast 02.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Fast 03.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Fast.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Medium 02.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Medium 03.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Medium.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Slow 02.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Slow 03.psd" />
-    <None Include="Resources\GIFs\GPUs\3-Fan-GPU-Slow.psd" />
-    <None Include="Resources\GIFs\GPUs\Blower-GPU-Fast 02.psd" />
-    <None Include="Resources\GIFs\GPUs\Blower-GPU-Fast.psd" />
-    <None Include="Resources\GIFs\GPUs\Blower-GPU-Medium 02.psd" />
-    <None Include="Resources\GIFs\GPUs\Blower-GPU-Medium.psd" />
-    <None Include="Resources\GIFs\GPUs\Blower-GPU-Slow 02.psd" />
-    <None Include="Resources\GIFs\GPUs\Blower-GPU-Slow.psd" />
-    <None Include="Resources\Images\CPU Status\CoolCPU.psd" />
-    <None Include="Resources\Images\CPU Status\CPU.psd" />
-    <None Include="Resources\Images\CPU Status\CPUCool.psd" />
-    <None Include="Resources\Images\CPU Status\CPUHot.psd" />
-    <None Include="Resources\Images\CPU Status\CPUOverheated.psd" />
-    <None Include="Resources\Images\CPU Status\HotCPU.psd" />
-    <None Include="Resources\Images\CPU Status\OverheatedCPU.psd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
