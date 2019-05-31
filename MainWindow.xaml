@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:SysMonitor"
         mc:Ignorable="d"
         Title="SysMonitor" Height="800" Width="1335"
+        Name="mainWindow"
         Background="#60666E"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
@@ -19,7 +20,8 @@
                       UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
 
-    <Grid Style="{StaticResource Container}">
+    <Grid Style="{StaticResource Container}"
+          SizeChanged="MainGrid_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" />
             <RowDefinition Height="*" />
@@ -28,6 +30,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ApplicationScaleTransform"
+                        CenterX="0"
+                        CenterY="0"
+                        ScaleX="{Binding ElementName=mainWindow, Path=ScaleValue}"
+                        ScaleY="{Binding ElementName=mainWindow, Path=ScaleValue}" />
+        </Grid.LayoutTransform>
 
         <DockPanel Background="#3E4247"
                         Height="25"
@@ -264,7 +274,7 @@
 
             <Border BorderThickness="0,0,0,1"
                         BorderBrush="Azure"
-                        Height="275">
+                        Height="270">
                 <StackPanel Orientation="Vertical"
                             VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal"
@@ -273,7 +283,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Top"
                                     Margin="10,0,0,0"
                                     x:Name="FansContainer">
                     </StackPanel>

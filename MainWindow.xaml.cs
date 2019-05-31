@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using OpenHardwareMonitor.Hardware;
@@ -17,9 +18,26 @@ namespace SysMonitor
         private bool fansRendered = false;
         private List<Fan> fans;
 
+        private int previousWidth;
+        private int currentWidth;
+        private int previousHeight;
+        private int currentHeight;
+
+        public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
+
         public MainWindow()
         {
             InitializeComponent();
+            currentWidth = (int)(Screen.PrimaryScreen.Bounds.Width * 0.6953125);
+            previousWidth = currentWidth;
+
+            currentHeight = (int)(Screen.PrimaryScreen.Bounds.Height * 0.6953125);
+            previousHeight = currentHeight;
+
+            SetValue(ScaleValueProperty, 1.29);
+
+            mainWindow.Width = currentWidth;
+            mainWindow.Height = currentHeight;
             computerHardware = new Computer();
             stringFactory = new StringFactory();
             fans = new List<Fan>();
@@ -371,6 +389,61 @@ namespace SysMonitor
             {
                 WindowState = WindowState.Maximized;
             }
+        }
+
+        private static object OnCoerceScaleValue(DependencyObject o, object value)
+        {
+            /*MainWindow mainWindow = o as MainWindow;
+            if (mainWindow != null)
+                return mainWindow.OnCoerceScaleValue((double)value);
+            else*/
+                return value;
+        }
+
+        private static void OnScaleValueChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            /*MainWindow mainWindow = o as MainWindow;
+            if (mainWindow != null)
+                mainWindow.OnScaleValueChanged((double)e.OldValue, (double)e.NewValue);*/
+        }
+
+        protected virtual double OnCoerceScaleValue(double value)
+        {
+            /*if (double.IsNaN(value))
+                return 1.0f;
+
+            value = Math.Max(0.1, value);*/
+            return value;
+        }
+
+        protected virtual void OnScaleValueChanged(double oldValue, double newValue)
+        {
+
+        }
+
+        public double ScaleValue
+        {
+            get
+            {
+                return (double)GetValue(ScaleValueProperty);
+            }
+            set
+            {
+                SetValue(ScaleValueProperty, value);
+            }
+        }
+
+        private void MainGrid_SizeChanged(object sender, EventArgs e)
+        {
+            CalculateScale();
+        }
+
+        private void CalculateScale()
+        {
+            /*double yScale = ActualHeight / 250f;
+            double xScale = ActualWidth / 200f;
+            double value = Math.Min(xScale, yScale);
+            ScaleValue = (double)OnCoerceScaleValue(mainWindow, value);*/
         }
 
     }
