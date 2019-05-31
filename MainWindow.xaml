@@ -30,44 +30,44 @@
         </Grid.ColumnDefinitions>
 
         <DockPanel Background="#3E4247"
-                    Height="25"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    x:Name="titleBar">
+                        Height="25"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        x:Name="titleBar">
             <StackPanel HorizontalAlignment="Left"
-                        Orientation="Horizontal">
+                            Orientation="Horizontal">
                 <Image Source="Resources/Images/Icon.png"
-                       Width="25"
-                       Margin="15,0,0,0"/>
+                           Width="25"
+                           Margin="15,0,0,0"/>
                 <Label Foreground="#FFFFFF"
-                       FontSize="15"
-                       Height="25"
-                       VerticalContentAlignment="Center"
-                       Padding="10,5,0,0"
-                       Content="SysMonitor"/>
+                           FontSize="15"
+                           Height="25"
+                           VerticalContentAlignment="Center"
+                           Padding="10,5,0,0"
+                           Content="SysMonitor"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right" Width="135">
+                            HorizontalAlignment="Right" Width="135">
                 <Button BorderThickness="0"
-                        Width="45"
-                        Height="25"
-                        Foreground="#FFFFFF"
-                        Content="🗕"
-                        x:Name="minWindowButton"/>
+                            Width="45"
+                            Height="25"
+                            Foreground="#FFFFFF"
+                            Content="🗕"
+                            x:Name="minWindowButton"/>
                 <Button BorderThickness="0"
-                        Width="45"
-                        Height="25"
-                        Foreground="#FFFFFF"
-                        Content="🗖"
-                        x:Name="maxWindowButton"/>
+                            Width="45"
+                            Height="25"
+                            Foreground="#FFFFFF"
+                            Content="🗖"
+                            x:Name="maxWindowButton"/>
                 <Button BorderThickness="0"
-                        Width="45"
-                        Height="25"
-                        Foreground="#FFFFFF"
-                        FontWeight="Light"
-                        Content="✖"
-                        x:Name="closeWindowButton">
+                            Width="45"
+                            Height="25"
+                            Foreground="#FFFFFF"
+                            FontWeight="Light"
+                            Content="✖"
+                            x:Name="closeWindowButton">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}">
                             <Setter Property="Background" Value="#3E4247"/>
@@ -92,22 +92,23 @@
         </DockPanel>
 
         <StackPanel Background="#60666E"
-                    Margin="10,0,10,0"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    x:Name="dataGrid">
+                        Margin="10,0,10,0"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        x:Name="dataGrid">
 
             <Border BorderThickness="0,0,0,1"
-                    BorderBrush="Azure"
-                    Height="210">
+                        BorderBrush="Azure"
+                        Height="195">
                 <StackPanel Orientation="Vertical"
-                            VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
+                                VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                    Margin="0,-5,0,-7">
                         <Label Style="{StaticResource SectionHeader}">CPU</Label>
                         <Label Style="{StaticResource SectionHeaderName}"
-                               Margin="114,0,0,0"
-                               VerticalAlignment="Bottom"
-                               x:Name="CPULabel"/>
+                                   Margin="122,0,0,0"
+                                   VerticalAlignment="Bottom"
+                                   x:Name="CPULabel"/>
                     </StackPanel>
 
                     <Grid>
@@ -123,39 +124,40 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Source="Resources/Images/CPU Status/CPUCool.png"
-                                Grid.Column="0"
-                                Grid.Row="0"
-                                Grid.RowSpan="3"
-                                Width="140"
-                                Margin="10"
-                               x:Name="CPUStatusImage"/>
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="3"
+                                    Width="140"
+                                    Margin="10"
+                                   x:Name="CPUStatusImage"/>
 
                         <Label Content="Load: "
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Bottom"
-                                   x:Name="CPULoad" Grid.ColumnSpan="2" Margin="0,0,0,56.333" Grid.RowSpan="2"/>
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Bottom"
+                                       x:Name="CPULoad" Grid.ColumnSpan="2" Margin="0,0,0,56.333" Grid.RowSpan="2"/>
                         <Label Content="Temperature: "
-                                   Grid.Row="1"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   x:Name="CPUTemp" Grid.ColumnSpan="2" Margin="0,9.333,0,8.333"/>
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       x:Name="CPUTemp" Grid.ColumnSpan="2" Margin="0,9.333,0,8.333"/>
                         <Label Content="Clock: "
-                                   Grid.Row="1"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Top"
-                                   x:Name="CPUClock" Grid.ColumnSpan="2" Margin="0,56.333,0,0" Grid.RowSpan="2"/>
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Top"
+                                       x:Name="CPUClock" Grid.ColumnSpan="2" Margin="0,56.333,0,0" Grid.RowSpan="2"/>
                     </Grid>
 
                 </StackPanel>
             </Border>
 
             <Border BorderThickness="0,0,0,1"
-                    BorderBrush="Azure"
-                    Height="130">
+                        BorderBrush="Azure"
+                        Height="115">
                 <StackPanel Orientation="Vertical"
-                            VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
+                                VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                    Margin="0,-5,0,-7">
                         <Label Style="{StaticResource SectionHeader}">Memory</Label>
                     </StackPanel>
                     <Grid>
@@ -170,39 +172,40 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Source="Resources/Images/ram.png"
-                                   Grid.Column="0"
-                                   Grid.Row="0"
-                                   Grid.RowSpan="3"
-                                   Width="140"
-                                   Margin="10"/>
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       Grid.RowSpan="3"
+                                       Width="140"
+                                       Margin="10"/>
 
                         <Label Content="Used: "
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Bottom"
-                                   x:Name="memoryLoad"/>
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Bottom"
+                                       x:Name="memoryLoad"/>
                         <Label Content="Capacity: "
-                                   Grid.Row="1"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   x:Name="memoryCapacity"/>
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       x:Name="memoryCapacity"/>
                     </Grid>
                 </StackPanel>
             </Border>
 
             <Border BorderThickness="0,0,0,1"
-                    BorderBrush="Azure"
-                    Height="215">
+                        BorderBrush="Azure"
+                        Height="195">
                 <StackPanel Orientation="Vertical"
-                            VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal">
+                                VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                    Margin="0,-5,0,-7">
                         <Label Style="{StaticResource SectionHeader}">GPU</Label>
                         <Label Style="{StaticResource SectionHeaderName}"
-                               Margin="112,0,0,0"
-                               VerticalAlignment="Bottom"
-                               x:Name="GPULabel"/>
+                                   Margin="122,0,0,0"
+                                   VerticalAlignment="Bottom"
+                                   x:Name="GPULabel"/>
                     </StackPanel>
-                    
+
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"/>
@@ -217,59 +220,62 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Source="Resources/Images/CPU Status/CPUCool.png"
-                               Grid.Column="0"
-                               Grid.Row="0"
-                               Grid.RowSpan="3"
-                               Width="140"
-                               Margin="10"
-                               x:Name="GPUStatusImage"/>
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   Grid.RowSpan="3"
+                                   Width="140"
+                                   Margin="10"
+                                   x:Name="GPUStatusImage"/>
 
                         <Label Content="Load: "
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Bottom"
-                                   x:Name="GPULoad"/>
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Bottom"
+                                       x:Name="GPULoad"/>
                         <Label Content="Temperature: "
-                                   Grid.Row="1"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   x:Name="GPUTemp"/>
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       x:Name="GPUTemp"/>
                         <Label Content="Core Clock: "
-                                   Grid.Row="2"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Top"
-                                   x:Name="GPUCoreClock"/>
+                                       Grid.Row="2"
+                                       Grid.Column="1"
+                                       VerticalAlignment="Top"
+                                       x:Name="GPUCoreClock"/>
 
                         <Label Content="Memory Clock: "
-                                   Grid.Row="0"
-                                   Grid.Column="2"
-                                   VerticalAlignment="Bottom"
-                                   x:Name="GPUMemoryClock"/>
+                                       Grid.Row="0"
+                                       Grid.Column="2"
+                                       VerticalAlignment="Bottom"
+                                       x:Name="GPUMemoryClock"/>
                         <Label Content="Memory Used: "
-                                   Grid.Row="1"
-                                   Grid.Column="2"
-                                   VerticalAlignment="Center"
-                                   x:Name="GPUMemoryUsed"/>
+                                       Grid.Row="1"
+                                       Grid.Column="2"
+                                       VerticalAlignment="Center"
+                                       x:Name="GPUMemoryUsed"/>
                         <Label Content="Memory Capacity: "
-                                   Grid.Row="2"
-                                   Grid.Column="2"
-                                   VerticalAlignment="Top"
-                                   x:Name="GPUMemoryCapacity"/>
+                                       Grid.Row="2"
+                                       Grid.Column="2"
+                                       VerticalAlignment="Top"
+                                       x:Name="GPUMemoryCapacity"/>
                     </Grid>
                 </StackPanel>
             </Border>
 
             <Border BorderThickness="0,0,0,1"
-                    BorderBrush="Azure"
-                    Height="330">
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
+                        BorderBrush="Azure"
+                        Height="275">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal"
+                                    Margin="0,0,0,-7">
                         <Label Style="{StaticResource SectionHeader}">Fans</Label>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center"
-                                x:Name="FansContainer">
+                                    VerticalAlignment="Center"
+                                    Margin="10,0,0,0"
+                                    x:Name="FansContainer">
                     </StackPanel>
                 </StackPanel>
             </Border>
