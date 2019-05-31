@@ -10,6 +10,7 @@
     <StackPanel Orientation="Vertical"
                 Margin="10">
         <Label Content="{Binding FanName}"
+               FontSize="18"
                HorizontalContentAlignment="Center" />
 
         <Image Margin="0,5,0,5"
@@ -17,6 +18,7 @@
 
         <Label Content="{Binding FanRPM, Mode=TwoWay}"
                HorizontalContentAlignment="Center"
+               FontSize="20"
                x:Name="FanSpeedLabel"/>
     </StackPanel>
 </UserControl>

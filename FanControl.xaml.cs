@@ -58,15 +58,15 @@ namespace SysMonitor
             if (FanType == "CPU")
             {
                 FanName = "CPU Fan";
-                FanGif.Width = 150;
+                FanGif.Width = 140;
             } else if (FanType == "Case")
             {
                 FanName = "Case Fan";
-                FanGif.Width = 150;
+                FanGif.Width = 140;
             } else if (FanType == "GPU")
             {
                 FanName = "GPU Fan";
-                FanGif.Height = 150;
+                FanGif.Height = 140;
             }
 
             loadGif();

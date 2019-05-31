@@ -6,7 +6,7 @@
         xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:SysMonitor"
         mc:Ignorable="d"
-        Title="SysMonitor" Height="1000" Width="1700"
+        Title="SysMonitor" Height="800" Width="1335"
         Background="#60666E"
         WindowStartupLocation="CenterScreen"
         WindowStyle="SingleBorderWindow"
@@ -21,7 +21,7 @@
 
     <Grid Style="{StaticResource Container}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="25" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -30,18 +30,20 @@
         </Grid.ColumnDefinitions>
 
         <DockPanel Background="#3E4247"
-                    Height="30"
+                    Height="25"
                     Grid.Row="0"
                     Grid.Column="0"
                     x:Name="titleBar">
             <StackPanel HorizontalAlignment="Left"
                         Orientation="Horizontal">
                 <Image Source="Resources/Images/Icon.png"
-                       Width="30"
+                       Width="25"
                        Margin="15,0,0,0"/>
                 <Label Foreground="#FFFFFF"
                        FontSize="15"
-                       Margin="20,0,0,0"
+                       Height="25"
+                       VerticalContentAlignment="Center"
+                       Padding="10,5,0,0"
                        Content="SysMonitor"/>
             </StackPanel>
 
@@ -49,19 +51,19 @@
                         HorizontalAlignment="Right" Width="135">
                 <Button BorderThickness="0"
                         Width="45"
-                        Height="30"
+                        Height="25"
                         Foreground="#FFFFFF"
                         Content="🗕"
                         x:Name="minWindowButton"/>
                 <Button BorderThickness="0"
                         Width="45"
-                        Height="30"
+                        Height="25"
                         Foreground="#FFFFFF"
                         Content="🗖"
                         x:Name="maxWindowButton"/>
                 <Button BorderThickness="0"
                         Width="45"
-                        Height="30"
+                        Height="25"
                         Foreground="#FFFFFF"
                         FontWeight="Light"
                         Content="✖"
@@ -97,12 +99,13 @@
 
             <Border BorderThickness="0,0,0,1"
                     BorderBrush="Azure"
-                    Height="230">
-                <StackPanel Orientation="Vertical">
+                    Height="210">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Label Style="{StaticResource SectionHeader}">CPU</Label>
-                        <Label Margin="114,0,0,0"
-                               FontSize="18"
+                        <Label Style="{StaticResource SectionHeaderName}"
+                               Margin="114,0,0,0"
                                VerticalAlignment="Bottom"
                                x:Name="CPULabel"/>
                     </StackPanel>
@@ -123,7 +126,7 @@
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
-                                Width="150"
+                                Width="140"
                                 Margin="10"
                                x:Name="CPUStatusImage"/>
 
@@ -149,8 +152,9 @@
 
             <Border BorderThickness="0,0,0,1"
                     BorderBrush="Azure"
-                    Height="150">
-                <StackPanel Orientation="Vertical">
+                    Height="130">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Label Style="{StaticResource SectionHeader}">Memory</Label>
                     </StackPanel>
@@ -188,12 +192,13 @@
 
             <Border BorderThickness="0,0,0,1"
                     BorderBrush="Azure"
-                    Height="235">
-                <StackPanel Orientation="Vertical">
+                    Height="215">
+                <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
                         <Label Style="{StaticResource SectionHeader}">GPU</Label>
-                        <Label Margin="112,0,0,0"
-                               FontSize="18"
+                        <Label Style="{StaticResource SectionHeaderName}"
+                               Margin="112,0,0,0"
                                VerticalAlignment="Bottom"
                                x:Name="GPULabel"/>
                     </StackPanel>
@@ -215,7 +220,7 @@
                                Grid.Column="0"
                                Grid.Row="0"
                                Grid.RowSpan="3"
-                               Width="150"
+                               Width="140"
                                Margin="10"
                                x:Name="GPUStatusImage"/>
 
@@ -256,7 +261,7 @@
 
             <Border BorderThickness="0,0,0,1"
                     BorderBrush="Azure"
-                    Height="350">
+                    Height="330">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Style="{StaticResource SectionHeader}">Fans</Label>
