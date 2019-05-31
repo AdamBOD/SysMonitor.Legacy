@@ -304,13 +304,13 @@ namespace SysMonitor
                 gifPath += "GPUs/";
                 switch (speedClass)
                 {
-                    case 0:
+                    case 6:
                         gifPath += "3-Fan-GPU-Slow-03.gif";
                         break;
-                    case 1:
+                    case 7:
                         gifPath += "3-Fan-GPU-Medium-03.gif";
                         break;
-                    case 2:
+                    case 8:
                         gifPath += "3-Fan-GPU-Fast-03.gif";
                         break;
                     default:
