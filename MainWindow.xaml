@@ -272,8 +272,9 @@
             </Border>
 
             <Border BorderThickness="0,0,0,1"
-                        BorderBrush="Azure"
-                        Height="270">
+                    BorderBrush="Azure"
+                    Height="270"
+                    Name="FansBlock">
                 <StackPanel Orientation="Vertical"
                             VerticalAlignment="Top">
                     <StackPanel Orientation="Horizontal"

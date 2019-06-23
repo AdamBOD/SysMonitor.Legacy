@@ -1,0 +1,221 @@
+﻿<Window x:Class="SysMonitor.ConfigurationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:local="clr-namespace:SysMonitor"
+        mc:Ignorable="d"
+        Title="Configuration" Height="600" Width="450"
+        Name="configWindow"
+        Background="#60666E"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize"
+        AllowsTransparency="False">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                      ResizeBorderThickness="5"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid Style="{StaticResource Container}"
+          Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               FontSize="20"
+               Content="Select which GPU Icon is most similar to the GPU in your PC">            
+        </Label>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="1"
+                Grid.Column="0"
+                Name="Blower_GPU">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="Blower_GPU_Border">
+                <Image Source="Resources/Images/GPUs/Blower-GPU.png"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="1"
+                Grid.Column="1"
+                Name="Blower_GPU_02">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="Blower_GPU_02_Border">
+                <Image Source="Resources/Images/GPUs/Blower-GPU 02.png"
+                       Margin="5"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="2"
+                Grid.Column="0"
+                Name="One_Fan_GPU">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="One_Fan_GPU_Border">
+                <Image Source="Resources/Images/GPUs/1-Fan-GPU.png"
+                       Grid.Row="2"
+                       Grid.Column="0"
+                       Margin="5"
+                       Cursor="Hand"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="2"
+                Grid.Column="1"
+                Name="One_Fan_GPU_02">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="One_Fan_GPU_02_Border">
+                <Image Source="Resources/Images/GPUs/1-Fan-GPU 02.png"
+                       Grid.Row="2"
+                       Grid.Column="1"
+                       Margin="5"
+                       Cursor="Hand"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="3"
+                Grid.Column="0"
+                Name="Two_Fan_GPU">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="Two_Fan_GPU_Border">
+                <Image Source="Resources/Images/GPUs/2-Fan-GPU.png"
+                       Grid.Row="3"
+                       Grid.Column="0"
+                       Margin="5"
+                       Cursor="Hand"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="3"
+                Grid.Column="1"
+                Name="Two_Fan_GPU_02">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="Two_Fan_GPU_02_Border">
+                <Image Source="Resources/Images/GPUs/2-Fan-GPU 02.png"
+                       Grid.Row="3"
+                       Grid.Column="1"
+                       Margin="5"
+                       Cursor="Hand"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="4"
+                Grid.Column="0"
+                Name="Two_Fan_GPU_03">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="Two_Fan_GPU_03_Border">
+                <Image Source="Resources/Images/GPUs/2-Fan-GPU 03.png"
+                       Grid.Row="4"
+                       Grid.Column="0"
+                       Margin="5"
+                       Cursor="Hand"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="4"
+                Grid.Column="1"
+                Name="Three_Fan_GPU">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="Three_Fan_GPU_Border">
+                <Image Source="Resources/Images/GPUs/3-Fan-GPU.png"
+                       Grid.Row="4"
+                       Grid.Column="1"
+                       Margin="5"
+                       Cursor="Hand"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="5"
+                Grid.Column="0"
+                Name="Three_Fan_GPU_02">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="Three_Fan_GPU_02_Border">
+                <Image Source="Resources/Images/GPUs/3-Fan-GPU 02.png"
+                       Grid.Row="5"
+                       Grid.Column="0"
+                       Margin="5"
+                       Cursor="Hand"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Click="ImageButton_Click"
+                Background="#60666E"
+                Grid.Row="5"
+                Grid.Column="1"
+                Name="Three_Fan_GPU_03">
+            <Border BorderBrush="#60666E"
+                    BorderThickness="5"
+                    Name="Three_Fan_GPU_03_Border">
+                <Image Source="Resources/Images/GPUs/3-Fan-GPU 03.png"
+                       Grid.Row="5"
+                       Grid.Column="1"
+                       Margin="5"
+                       Cursor="Hand"/>
+            </Border>
+        </Button>
+
+        <Button Cursor="Hand"
+                Grid.Row="6"
+                Grid.Column="1"
+                FontSize="20"
+                Foreground="#FFFFFF"
+                Margin="5"
+                Visibility="Hidden"
+                Name="SaveButton"
+                Content="Save"
+                Click="SaveButton_Click"/>
+    </Grid>
+</Window>
