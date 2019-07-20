@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenHardwareMonitor.Hardware;
 
 namespace SysMonitor
@@ -17,18 +21,93 @@ namespace SysMonitor
         private bool fansRendered = false;
         private List<Fan> fans;
 
+        private int previousWidth;
+        private int currentWidth;
+        private int previousHeight;
+        private int currentHeight;
+
+        public static string GPUString;
+
+        private int CPUHeatClass = -1;
+        private int CPUHeatClassChange = 0;
+
+        private int GPUHeatClass = -1;
+        private int GPUHeatClassChange = 0;
+
+        private bool titleBarClicked = false;
+        private bool windowStateChanging = false;
+
+        public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0));
+
         public MainWindow()
         {
             InitializeComponent();
+            currentWidth = (int)(Screen.PrimaryScreen.Bounds.Width * 0.6953125);
+            previousWidth = currentWidth;
+
+            currentHeight = (int)(Screen.PrimaryScreen.Bounds.Height * 0.6953125);
+            previousHeight = currentHeight;
+
+            double scaleValue = 0.935;
+            if (Screen.PrimaryScreen.Bounds.Width > 1920)
+                scaleValue = (double)Screen.PrimaryScreen.Bounds.Width / 1920 - 0.085;
+
+            ScaleValue = scaleValue;
+
+            mainWindow.Width = currentWidth;
+            mainWindow.Height = currentHeight;
             computerHardware = new Computer();
             stringFactory = new StringFactory();
             fans = new List<Fan>();
+
+            // Check to see if the system is a desktop as there is no need for a config file on laptops as fans aren't query-able
+            if (SystemInformation.PowerStatus.BatteryChargeStatus == BatteryChargeStatus.NoSystemBattery)
+            {
+                if (!File.Exists(@".\conf.json"))
+                {
+                    ConfigurationWindow configWindow = new ConfigurationWindow();
+                    configWindow.ShowDialog();
+                    if (configWindow.DialogResult.HasValue && configWindow.DialogResult.Value)
+                    {
+                        readConfig();
+                    }
+                    else
+                    {
+                        App.Current.Shutdown();
+                    }
+                }
+                else
+                {
+                    readConfig();
+                }
+            }
+            else
+            {
+                FansBlock.Visibility = Visibility.Hidden;
+            }
+            
             prepareUI();
+        }
+
+        private void readConfig ()
+        {
+            JObject jsonObject = JObject.Parse(File.ReadAllText(@".\conf.json"));
+
+            using (StreamReader file = File.OpenText(@".\conf.json"))
+            using (JsonTextReader reader = new JsonTextReader(file))
+            {
+                JObject confObject = (JObject)JToken.ReadFrom(reader);
+                GPUString = confObject["GPUString"].ToString();
+            }
         }
 
         private void prepareUI ()
         {
-            titleBar.MouseDown += Window_MouseDown;            
+            mainWindow.StateChanged += MainWindow_StateChanged;
+
+            titleBar.MouseLeftButtonDown += Window_MouseLeftButtonDown;
+            titleBar.MouseLeftButtonUp += Window_MouseLeftButtonUp;
+            titleBar.MouseMove += TitleBar_MouseMove;
 
             closeWindowButton.Click += new RoutedEventHandler(closeApp);
             minWindowButton.Click += new RoutedEventHandler(minimizeApp);
@@ -51,9 +130,9 @@ namespace SysMonitor
             dispatcherTimer.Tick += OnTimedEvent;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
-
         }
 
+        // Timer elapsed function
         private void OnTimedEvent(object source, EventArgs e)
         {
             foreach (var hardware in computerHardware.Hardware)
@@ -63,6 +142,7 @@ namespace SysMonitor
             getSensorData();
         }
 
+        // Function that is called periodically to query the OpenHardware library and process the responses for each hardware category: CPU, Memory, GPU, Fans
         private void getSensorData ()
         {
             int fansIndex = 0;
@@ -124,22 +204,36 @@ namespace SysMonitor
                             case SensorType.Temperature:
                                 if (hardwareSensor.Name == "CPU Package")
                                 {
+                                    if (CPUHeatClass == -1)
+                                    {
+                                        CPUHeatClass = Helpers.getProcessorHeatClass(hardwareSensor.Value);
+                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"" + Helpers.getProcessorTemperatureIconPath(CPUHeatClass), UriKind.Relative));
+                                    }
+
                                     CPUTemp.Content = stringFactory.temperatureString(hardwareSensor.Value);
-                                    if (hardwareSensor.Value < 45)
+
+                                    if (CPUHeatClass != Helpers.getProcessorHeatClass(hardwareSensor.Value))
                                     {
-                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Resources\Images\CPU Status\CPUCool.png", UriKind.Relative));
+                                        if (CPUHeatClassChange < 5)
+                                        {
+                                            CPUHeatClassChange++;
+                                        }
+                                        else
+                                        {
+                                            CPUHeatClass = Helpers.getProcessorHeatClass(hardwareSensor.Value);
+                                            CPUStatusImage.Source = new BitmapImage(new Uri(@"" + Helpers.getProcessorTemperatureIconPath(CPUHeatClass), UriKind.Relative));
+                                            CPUHeatClassChange = 0;
+                                        }
                                     }
-                                    else if (hardwareSensor.Value >= 45 && hardwareSensor.Value < 75)
+                                    else
                                     {
-                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Resources\Images\CPU Status\CPUHot.png", UriKind.Relative));
-                                    }
-                                    else if (hardwareSensor.Value > 75)
-                                    {
-                                        CPUStatusImage.Source = new BitmapImage(new Uri(@"Images\CPU Status\CPUOverheated.png", UriKind.Relative));
+                                        if (CPUHeatClassChange > 0)
+                                        {
+                                            CPUHeatClassChange--;
+                                        }
                                     }
                                 }
                                 break;
-
                             case SensorType.Clock:
                                 if (hardwareSensor.Name == "CPU Core #2")
                                 {
@@ -194,18 +288,33 @@ namespace SysMonitor
                                 }
                                 break;
                             case SensorType.Temperature:
+                                if (GPUHeatClass == -1)
+                                {
+                                    GPUHeatClass = Helpers.getProcessorHeatClass(hardwareSensor.Value);
+                                    GPUStatusImage.Source = new BitmapImage(new Uri(@"" + Helpers.getProcessorTemperatureIconPath(GPUHeatClass), UriKind.Relative));
+                                }
+
                                 GPUTemp.Content = stringFactory.temperatureString(hardwareSensor.Value);
-                                if (hardwareSensor.Value < 45)
+
+                                if (GPUHeatClass != Helpers.getProcessorHeatClass(hardwareSensor.Value))
                                 {
-                                    GPUStatusImage.Source = new BitmapImage(new Uri(@"Resources\Images\CPU Status\CPUCool.png", UriKind.Relative));
+                                    if (GPUHeatClassChange < 5)
+                                    {
+                                        GPUHeatClassChange++;
+                                    }
+                                    else
+                                    {
+                                        GPUHeatClass = Helpers.getProcessorHeatClass(hardwareSensor.Value);
+                                        GPUStatusImage.Source = new BitmapImage(new Uri(@"" + Helpers.getProcessorTemperatureIconPath(GPUHeatClass), UriKind.Relative));
+                                        GPUHeatClassChange = 0;
+                                    }
                                 }
-                                else if (hardwareSensor.Value >= 45 && hardwareSensor.Value < 75)
+                                else
                                 {
-                                    GPUStatusImage.Source = new BitmapImage(new Uri(@"Resources\Images\CPU Status\CPUHot.png", UriKind.Relative));
-                                }
-                                else if (hardwareSensor.Value > 75)
-                                {
-                                    GPUStatusImage.Source = new BitmapImage(new Uri(@"Images\CPU Status\CPUOverheated.png", UriKind.Relative));
+                                    if (GPUHeatClassChange > 0)
+                                    {
+                                        GPUHeatClassChange--;
+                                    }
                                 }
                                 break;
                             case SensorType.Fan:
@@ -244,7 +353,7 @@ namespace SysMonitor
             }
         }
 
-
+        // Function to create a fan UI component for each fan fetched from the OpenHardware library
         private void renderFans()
         {
             int fanIndex = 0;
@@ -256,6 +365,7 @@ namespace SysMonitor
             fansRendered = true;
         }
 
+        // Function to update a fan's speed on the UI and update its GIF if it has moved into a new speed class
         private void updateFans()
         {
             int fanIndex = 0;
@@ -264,92 +374,62 @@ namespace SysMonitor
                 FanControl fanControl = (FanControl)FansContainer.Children[fanIndex];
                 fanControl.FanSpeedLabel.Content = $"{fan.getRPM()} RPM";
                 if (fan.NeedsUpdate == 0) {
-                    fanControl.updateGif(createGifPath(fan.FanType, fan.SpeedClass));
+                    fanControl.updateGif(Helpers.createGifPath(GPUString, fan.FanType, fan.SpeedClass));
                 }
                 fanIndex++;
             }
         }
 
-        public static string createGifPath (string fanType, int speedClass)
+        
+
+        private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            string gifPath = "Resources/GIFs/";
-            if (fanType == "CPU")
-            {
-                gifPath += "CPU_Fans/";
-                switch (speedClass)
-                {
-                    case 0:
-                        gifPath += "CPU_Fan_Slow.gif";
-                        break;
-                    case 1:
-                        gifPath += "CPU_Fan_Slow_Medium.gif";
-                        break;
-                    case 2:
-                        gifPath += "CPU_Fan_Medium.gif";
-                        break;
-                    case 3:
-                        gifPath += "CPU_Fan_Medium_Fast.gif";
-                        break;
-                    case 4:
-                        gifPath += "CPU_Fan_Fast.gif";
-                        break;
-                    case 5:
-                        gifPath += "CPU_Fan_Very_Fast.gif";
-                        break;
-                    default:
-                        break;
-                }
-            } else if (fanType == "GPU")
-            {
-                gifPath += "GPUs/";
-                switch (speedClass)
-                {
-                    case 0:
-                        gifPath += "3-Fan-GPU-Slow-03.gif";
-                        break;
-                    case 1:
-                        gifPath += "3-Fan-GPU-Medium-03.gif";
-                        break;
-                    case 2:
-                        gifPath += "3-Fan-GPU-Fast-03.gif";
-                        break;
-                    default:
-                        break;
-                }
-            } else if (fanType == "Case")
-            {
-                gifPath += "Fans/";
-                switch (speedClass)
-                {
-                    case 0:
-                        gifPath += "Fan_Slow.gif";
-                        break;
-                    case 1:
-                        gifPath += "Fan_Slow_Medium.gif";
-                        break;
-                    case 2:
-                        gifPath += "Fan_Medium.gif";
-                        break;
-                    case 3:
-                        gifPath += "Fan_Medium_Fast.gif";
-                        break;
-                    case 4:
-                        gifPath += "Fan_Fast.gif";
-                        break;
-                    case 5:
-                        gifPath += "Fan_Very_Fast.gif";
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return gifPath;
+            windowStateChanging = true;
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-                DragMove();
+            if (e.ClickCount == 2)
+            {
+                if (WindowState == WindowState.Normal)
+                {
+                    WindowState = WindowState.Maximized;
+                }
+                else
+                {
+                    WindowState = WindowState.Normal;
+                }
+                
+            } else if (e.ChangedButton == MouseButton.Left)
+            {
+                titleBarClicked = true;
+                windowStateChanging = false;
+            }
+        }
+
+        private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            titleBarClicked = false;
+            windowStateChanging = false;
+        }
+
+        private void TitleBar_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (titleBarClicked)
+            {
+                if (WindowState == WindowState.Maximized && !windowStateChanging)
+                {
+                    WindowState = WindowState.Normal;
+                    this.Top = e.GetPosition(this.titleBar).Y;
+                }
+                try
+                {
+                    DragMove();
+                } catch (Exception error) {
+                    Console.WriteLine(error.Message);
+                }                
+            }
+            
         }
 
         private void closeApp (object sender, RoutedEventArgs e)
@@ -373,5 +453,16 @@ namespace SysMonitor
             }
         }
 
+        public double ScaleValue
+        {
+            get
+            {
+                return (double)GetValue(ScaleValueProperty);
+            }
+            set
+            {
+                SetValue(ScaleValueProperty, value);
+            }
+        }
     }
 }

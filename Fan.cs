@@ -36,6 +36,7 @@ namespace SysMonitor
         public Fan (string fanType, int rpm)
         {
             this.fanType = fanType;
+            speedClass = checkSpeedClass(rpm);
             setRPM(rpm);
         }
 

@@ -48,12 +48,16 @@
     <Reference Include="Microsoft.Win32.Registry, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Win32.Registry.4.5.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="OpenHardwareMonitorLib, Version=0.8.0.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Ports, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.IO.Ports.4.5.0\lib\net461\System.IO.Ports.dll</HintPath>
     </Reference>
@@ -64,6 +68,7 @@
     <Reference Include="System.Security.Principal.Windows, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Security.Principal.Windows.4.5.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -85,11 +90,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigurationWindow.xaml.cs">
+      <DependentUpon>ConfigurationWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Fan.cs" />
     <Compile Include="FanControl.xaml.cs">
       <DependentUpon>FanControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers.cs" />
     <Compile Include="StringFactory.cs" />
+    <Page Include="ConfigurationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="FanControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -162,42 +175,62 @@
     <Resource Include="Resources\GIFs\Fans\Fan_Slow.gif" />
     <Resource Include="Resources\GIFs\Fans\Fan_Slow_Medium.gif" />
     <Resource Include="Resources\GIFs\Fans\Fan_Very_Fast.gif" />
-    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Fast-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Fast.gif" />
-    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Medium-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Medium.gif" />
-    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Slow-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Slow.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Fast-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Fast-03.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Fast.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Medium-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Medium-03.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Medium.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Slow-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Slow-03.gif" />
-    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Slow.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Fast-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Fast-03.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Fast.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Medium-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Medium-03.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Medium.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Slow-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Slow-03.gif" />
-    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Slow.gif" />
-    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Fast-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Fast.gif" />
-    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Medium-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Medium.gif" />
-    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Slow-02.gif" />
-    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Slow.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\GIFs\CPU_Fans\CPU_Fan_Slow_Medium.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\GPUs\1-Fan-GPU-02.png" />
+    <Resource Include="Resources\Images\GPUs\1-Fan-GPU.png" />
+    <Resource Include="Resources\Images\GPUs\2-Fan-GPU-02.png" />
+    <Resource Include="Resources\Images\GPUs\2-Fan-GPU-03.png" />
+    <Resource Include="Resources\Images\GPUs\2-Fan-GPU.png" />
+    <Resource Include="Resources\Images\GPUs\3-Fan-GPU-02.png" />
+    <Resource Include="Resources\Images\GPUs\3-Fan-GPU-03.png" />
+    <Resource Include="Resources\Images\GPUs\3-Fan-GPU.png" />
+    <Resource Include="Resources\Images\GPUs\Blower-GPU-02.png" />
+    <Resource Include="Resources\Images\GPUs\Blower-GPU.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-02-Fast-.gif" />
+    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-02-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-02-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\1-Fan-GPU-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-02-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-02-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-02-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-03-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-03-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-03-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\2-Fan-GPU-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-02-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-02-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-02-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-03-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-03-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-03-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\3-Fan-GPU-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-02-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-02-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-02-Slow.gif" />
+    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Fast.gif" />
+    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Medium.gif" />
+    <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Slow.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Fans\CPU_Fan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Fans\Fan.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

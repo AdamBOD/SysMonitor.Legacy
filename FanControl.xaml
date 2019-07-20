@@ -6,17 +6,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SysMonitor"
              mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="175">
+             d:DesignHeight="330" d:DesignWidth="165">
     <StackPanel Orientation="Vertical"
-                Margin="10">
+                Margin="5,0,5,7">
         <Label Content="{Binding FanName}"
+               FontSize="18"
+               Margin="0,0,0,0"
                HorizontalContentAlignment="Center" />
 
-        <Image Margin="0,5,0,5"
+        <Image Margin="0"
                x:Name="FanGif" />
 
         <Label Content="{Binding FanRPM, Mode=TwoWay}"
                HorizontalContentAlignment="Center"
+               FontSize="20"
+               Margin="0,-5"
                x:Name="FanSpeedLabel"/>
     </StackPanel>
 </UserControl>

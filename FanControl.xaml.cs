@@ -58,15 +58,15 @@ namespace SysMonitor
             if (FanType == "CPU")
             {
                 FanName = "CPU Fan";
-                FanGif.Width = 150;
+                FanGif.Width = 135;
             } else if (FanType == "Case")
             {
                 FanName = "Case Fan";
-                FanGif.Width = 150;
+                FanGif.Width = 135;
             } else if (FanType == "GPU")
             {
                 FanName = "GPU Fan";
-                FanGif.Height = 150;
+                FanGif.Height = 135;
             }
 
             loadGif();
@@ -74,7 +74,8 @@ namespace SysMonitor
 
         public void loadGif()
         {
-            var image = new BitmapImage(new Uri(@"" + createGifPath(fanType, speedClass), UriKind.Relative));
+            var path = Helpers.createGifPath(GPUString, fanType, speedClass);
+            var image = new BitmapImage(new Uri(@"" + Helpers.createGifPath(GPUString, fanType, speedClass), UriKind.Relative));
             ImageBehavior.SetAnimatedSource(FanGif, image);
         }
 
