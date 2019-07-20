@@ -74,6 +74,7 @@ namespace SysMonitor
 
         public void loadGif()
         {
+            var path = Helpers.createGifPath(GPUString, fanType, speedClass);
             var image = new BitmapImage(new Uri(@"" + Helpers.createGifPath(GPUString, fanType, speedClass), UriKind.Relative));
             ImageBehavior.SetAnimatedSource(FanGif, image);
         }

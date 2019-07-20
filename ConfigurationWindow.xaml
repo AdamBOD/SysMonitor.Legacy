@@ -66,7 +66,7 @@
             <Border BorderBrush="#60666E"
                     BorderThickness="5"
                     Name="Blower_GPU_02_Border">
-                <Image Source="Resources/Images/GPUs/Blower-GPU 02.png"
+                <Image Source="Resources/Images/GPUs/Blower-GPU-02.png"
                        Margin="5"/>
             </Border>
         </Button>
@@ -97,7 +97,7 @@
             <Border BorderBrush="#60666E"
                     BorderThickness="5"
                     Name="One_Fan_GPU_02_Border">
-                <Image Source="Resources/Images/GPUs/1-Fan-GPU 02.png"
+                <Image Source="Resources/Images/GPUs/1-Fan-GPU-02.png"
                        Grid.Row="2"
                        Grid.Column="1"
                        Margin="5"
@@ -131,7 +131,7 @@
             <Border BorderBrush="#60666E"
                     BorderThickness="5"
                     Name="Two_Fan_GPU_02_Border">
-                <Image Source="Resources/Images/GPUs/2-Fan-GPU 02.png"
+                <Image Source="Resources/Images/GPUs/2-Fan-GPU-02.png"
                        Grid.Row="3"
                        Grid.Column="1"
                        Margin="5"
@@ -148,7 +148,7 @@
             <Border BorderBrush="#60666E"
                     BorderThickness="5"
                     Name="Two_Fan_GPU_03_Border">
-                <Image Source="Resources/Images/GPUs/2-Fan-GPU 03.png"
+                <Image Source="Resources/Images/GPUs/2-Fan-GPU-03.png"
                        Grid.Row="4"
                        Grid.Column="0"
                        Margin="5"
@@ -182,7 +182,7 @@
             <Border BorderBrush="#60666E"
                     BorderThickness="5"
                     Name="Three_Fan_GPU_02_Border">
-                <Image Source="Resources/Images/GPUs/3-Fan-GPU 02.png"
+                <Image Source="Resources/Images/GPUs/3-Fan-GPU-02.png"
                        Grid.Row="5"
                        Grid.Column="0"
                        Margin="5"
@@ -199,7 +199,7 @@
             <Border BorderBrush="#60666E"
                     BorderThickness="5"
                     Name="Three_Fan_GPU_03_Border">
-                <Image Source="Resources/Images/GPUs/3-Fan-GPU 03.png"
+                <Image Source="Resources/Images/GPUs/3-Fan-GPU-03.png"
                        Grid.Row="5"
                        Grid.Column="1"
                        Margin="5"

@@ -365,7 +365,7 @@ namespace SysMonitor
             fansRendered = true;
         }
 
-        // Function to update a fan's speed onm the UI and update its GIF if it has moved into a new speed class
+        // Function to update a fan's speed on the UI and update its GIF if it has moved into a new speed class
         private void updateFans()
         {
             int fanIndex = 0;

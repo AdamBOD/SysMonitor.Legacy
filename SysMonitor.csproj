@@ -183,15 +183,15 @@
     <Resource Include="Resources\Images\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Images\GPUs\1-Fan-GPU 02.png" />
+    <Resource Include="Resources\Images\GPUs\1-Fan-GPU-02.png" />
     <Resource Include="Resources\Images\GPUs\1-Fan-GPU.png" />
-    <Resource Include="Resources\Images\GPUs\2-Fan-GPU 02.png" />
-    <Resource Include="Resources\Images\GPUs\2-Fan-GPU 03.png" />
+    <Resource Include="Resources\Images\GPUs\2-Fan-GPU-02.png" />
+    <Resource Include="Resources\Images\GPUs\2-Fan-GPU-03.png" />
     <Resource Include="Resources\Images\GPUs\2-Fan-GPU.png" />
-    <Resource Include="Resources\Images\GPUs\3-Fan-GPU 02.png" />
-    <Resource Include="Resources\Images\GPUs\3-Fan-GPU 03.png" />
+    <Resource Include="Resources\Images\GPUs\3-Fan-GPU-02.png" />
+    <Resource Include="Resources\Images\GPUs\3-Fan-GPU-03.png" />
     <Resource Include="Resources\Images\GPUs\3-Fan-GPU.png" />
-    <Resource Include="Resources\Images\GPUs\Blower-GPU 02.png" />
+    <Resource Include="Resources\Images\GPUs\Blower-GPU-02.png" />
     <Resource Include="Resources\Images\GPUs\Blower-GPU.png" />
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +225,12 @@
     <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Fast.gif" />
     <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Medium.gif" />
     <Resource Include="Resources\GIFs\GPUs\Blower-GPU-Slow.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Fans\CPU_Fan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\Fans\Fan.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

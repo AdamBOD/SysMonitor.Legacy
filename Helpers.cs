@@ -79,6 +79,7 @@ namespace SysMonitor
                         gifPath += "CPU_Fan_Very_Fast.gif";
                         break;
                     default:
+                        gifPath = $"Resources/Images/Fans/CPU_Fan.png";
                         break;
                 }
             }
@@ -97,6 +98,7 @@ namespace SysMonitor
                         gifPath += $"{GPUString}-Fast.gif";
                         break;
                     default:
+                        gifPath = $"Resources/Images/GPUs/{GPUString}.png";
                         break;
                 }
             }
@@ -124,6 +126,7 @@ namespace SysMonitor
                         gifPath += "Fan_Very_Fast.gif";
                         break;
                     default:
+                        gifPath = $"Resources/Images/Fans/Fan.png";
                         break;
                 }
             }
